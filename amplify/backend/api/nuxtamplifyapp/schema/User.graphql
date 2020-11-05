@@ -1,0 +1,6 @@
+type User @model {
+  id: ID!
+  name: String!
+  cognito_id: String!
+  color: String
+}
