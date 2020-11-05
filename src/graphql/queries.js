@@ -75,6 +75,7 @@ export const getUser = /* GraphQL */ `
       id
       name
       cognito_id
+      confirmed
       color
       createdAt
       updatedAt
@@ -92,6 +93,7 @@ export const listUsers = /* GraphQL */ `
         id
         name
         cognito_id
+        confirmed
         color
         createdAt
         updatedAt

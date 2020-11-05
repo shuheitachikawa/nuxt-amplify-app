@@ -76,6 +76,11 @@
       <v-card-actions>
         <v-btn block color="yellow darken-4" @click="signUp"> 登録 </v-btn>
       </v-card-actions>
+      <v-card-actions>
+        <v-btn block color="primary" @click="state = 'login'">
+          ログイン画面に戻る
+        </v-btn>
+      </v-card-actions>
       <v-card-text v-show="error" style="color: red">
         登録できません。<br />
         エラーメッセージ：<br />
@@ -123,6 +128,7 @@
 <script>
 import { Auth, API, graphqlOperation } from 'aws-amplify'
 import { createUser } from '@/src/graphql/mutations'
+// import { updateUser } from '@/src/graphql/mutations'
 export default {
   layout: 'login',
   components: {},
@@ -144,8 +150,10 @@ export default {
         password: this.password,
       }
       try {
-        await Auth.signIn(payload.username, payload.password)
-        this.$router.push('/home')
+        await Auth.signIn(payload.username, payload.password).then(
+          (res) => (this.cognitoId = res.username)
+        )
+        this.goHome()
       } catch (e) {
         this.error = true
         this.errorMessage = e.message
@@ -160,6 +168,7 @@ export default {
       try {
         await Auth.signUp(payload.username, payload.password)
         this.state = 'confirm'
+        alert('登録メールアドレスに確認コードを送信しました。')
       } catch (e) {
         this.error = true
         this.errorMessage = e.message
@@ -172,25 +181,41 @@ export default {
         code: this.code,
       }
       try {
-        await Auth.confirmSignUp(payload.username, payload.code).then((res) =>
-          console.log(res)
-        )
-        this.state = 'login'
-        this.postUser()
+        await Auth.confirmSignUp(payload.username, payload.code)
+        await this.login() // 確認できたらログイン
+        await this.postUser(this.userName, this.cognitoId) // 初回ログイン後、Userテーブルに追加
+        this.goHome()
       } catch (e) {
         this.error = true
         this.errorMessage = e.message
       }
     },
 
-    async postUser() {
+    async postUser(name, id) {
       const payload = {
-        name: this.userName,
-        cognito_id: this.cognitoId,
+        name,
+        cognito_id: id,
+        confirmed: true,
         color: 'Primary',
       }
-      await API.graphqp(graphqlOperation(createUser, { input: payload }))
+      try {
+        await API.graphql(graphqlOperation(createUser, { input: payload }))
+      } catch (e) {
+        this.error = true
+        console.error(e.message)
+        this.errorMessage = e.message
+      }
     },
+
+    goHome() {
+      this.$router.push('/home')
+    },
+
+    // async updateUser() {
+    //   await API.graphql(
+    //     graphqlOperation(updateUser, { input: { confirmed: true } })
+    //   )
+    // },
   },
 }
 </script>
