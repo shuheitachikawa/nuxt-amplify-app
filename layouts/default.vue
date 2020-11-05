@@ -16,7 +16,7 @@
             <v-list-item-title v-text="item.title" />
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
+        <v-list-item class="logout" block
           ><v-btn color="primary" block @click="logout"
             >ログアウト</v-btn
           ></v-list-item
@@ -55,6 +55,11 @@ export default {
           title: '食べログ',
           to: '/tabelog',
         },
+        {
+          icon: 'mdi-cat',
+          title: 'ユーザー設定',
+          to: '/setting',
+        },
       ],
       title: 'BUBE',
     }
@@ -72,3 +77,11 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.logout {
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+}
+</style>
