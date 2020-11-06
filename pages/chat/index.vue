@@ -73,7 +73,6 @@ export default {
           user_id: postId,
         })
       )
-      console.log(data)
       this.posts = data.tweetsByUserId.items
     },
 
@@ -81,7 +80,6 @@ export default {
       API.graphql({ query: onCreateTweet }).subscribe({
         next: (eventData) => {
           // コメントが送信されて追加されたとき、送信内容を一覧に追加
-          console.log(eventData)
           const chat = eventData.value.data.onCreateTweet // データを読み込み
           if (this.posts.some((post) => post.text === chat.text)) return // すでに表示されているデータは無視
           this.posts = [...this.posts, chat] // 新しいデータを追加

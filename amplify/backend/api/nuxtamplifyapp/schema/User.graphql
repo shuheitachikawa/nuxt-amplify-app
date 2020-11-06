@@ -1,7 +1,14 @@
-type User @model {
+type User
+  @model
+  @key(
+    name: "ByCognitoId"
+    fields: ["cognito_id"]
+    queryField: "userByCognitoId"
+  ) {
   id: ID!
   name: String!
   cognito_id: String!
   confirmed: Boolean!
+  img_pass: String
   color: String
 }

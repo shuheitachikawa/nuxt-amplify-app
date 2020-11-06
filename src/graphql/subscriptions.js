@@ -74,6 +74,7 @@ export const onCreateUser = /* GraphQL */ `
       name
       cognito_id
       confirmed
+      img_pass
       color
       createdAt
       updatedAt
@@ -87,6 +88,7 @@ export const onUpdateUser = /* GraphQL */ `
       name
       cognito_id
       confirmed
+      img_pass
       color
       createdAt
       updatedAt
@@ -100,6 +102,7 @@ export const onDeleteUser = /* GraphQL */ `
       name
       cognito_id
       confirmed
+      img_pass
       color
       createdAt
       updatedAt

@@ -128,7 +128,6 @@
 <script>
 import { Auth, API, graphqlOperation } from 'aws-amplify'
 import { createUser } from '@/src/graphql/mutations'
-// import { updateUser } from '@/src/graphql/mutations'
 export default {
   layout: 'login',
   components: {},
@@ -150,9 +149,7 @@ export default {
         password: this.password,
       }
       try {
-        await Auth.signIn(payload.username, payload.password).then(
-          (res) => (this.cognitoId = res.username)
-        )
+        await this.$store.dispatch('login', payload)
         this.goHome()
       } catch (e) {
         this.error = true
@@ -179,10 +176,12 @@ export default {
       const payload = {
         username: this.email,
         code: this.code,
+        password: this.password,
       }
       try {
         await Auth.confirmSignUp(payload.username, payload.code)
-        await this.login() // 確認できたらログイン
+        await this.$store.dispatch('login', payload) // 確認できたらログイン
+        // this.cognitoId =
         await this.postUser(this.userName, this.cognitoId) // 初回ログイン後、Userテーブルに追加
         this.goHome()
       } catch (e) {
@@ -210,12 +209,6 @@ export default {
     goHome() {
       this.$router.push('/home')
     },
-
-    // async updateUser() {
-    //   await API.graphql(
-    //     graphqlOperation(updateUser, { input: { confirmed: true } })
-    //   )
-    // },
   },
 }
 </script>

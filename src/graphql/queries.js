@@ -76,6 +76,7 @@ export const getUser = /* GraphQL */ `
       name
       cognito_id
       confirmed
+      img_pass
       color
       createdAt
       updatedAt
@@ -94,6 +95,7 @@ export const listUsers = /* GraphQL */ `
         name
         cognito_id
         confirmed
+        img_pass
         color
         createdAt
         updatedAt
@@ -150,6 +152,35 @@ export const itemsByStatus = /* GraphQL */ `
         status
         createdAt
         name
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const userByCognitoId = /* GraphQL */ `
+  query UserByCognitoId(
+    $cognito_id: String
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    userByCognitoId(
+      cognito_id: $cognito_id
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        cognito_id
+        confirmed
+        img_pass
+        color
+        createdAt
         updatedAt
       }
       nextToken
