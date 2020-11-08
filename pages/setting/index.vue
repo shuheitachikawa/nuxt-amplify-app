@@ -1,5 +1,7 @@
 <template>
   <v-container>
+    <h2>{{ loginUser.name }}</h2>
+    <h2>{{ loginUser.color }}</h2>
     <v-color-picker
       class="ma-4"
       show-swatches
@@ -24,12 +26,10 @@ export default {
       ['#0000FF', '#0000AA', '#000055'],
     ],
   }),
-  created() {
-    console.log(
-      localStorage.getItem(
-        'CognitoIdentityServiceProvider.371nfhrqmkp9rq749d92gl6dbe.LastAuthUser'
-      )
-    )
+  computed: {
+    loginUser() {
+      return this.$store.getters.loginUser
+    },
   },
 }
 </script>

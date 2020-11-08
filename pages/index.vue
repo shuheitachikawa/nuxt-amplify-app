@@ -132,7 +132,7 @@ export default {
   layout: 'login',
   components: {},
   data: () => ({
-    email: 'shuhei.tachikawa@bubekiti.com',
+    email: 'shuhei.tusx@gmail.com',
     password: 'tachikawa',
     userName: 'bubbubu',
     code: '',
@@ -180,8 +180,8 @@ export default {
       }
       try {
         await Auth.confirmSignUp(payload.username, payload.code)
-        await this.$store.dispatch('login', payload) // 確認できたらログイン
-        // this.cognitoId =
+        await this.$store.dispatch('initLogin', payload) // 確認できたらログイン
+        this.cognitoId = this.$store.getters.cognitoId
         await this.postUser(this.userName, this.cognitoId) // 初回ログイン後、Userテーブルに追加
         this.goHome()
       } catch (e) {
