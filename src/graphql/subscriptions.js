@@ -5,8 +5,21 @@ export const onCreateTweet = /* GraphQL */ `
   subscription OnCreateTweet {
     onCreateTweet {
       id
-      user_id
       text
+      user_id
+      user {
+        id
+        name
+        cognito_id
+        confirmed
+        color
+        img_name
+        tweet {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -16,8 +29,21 @@ export const onUpdateTweet = /* GraphQL */ `
   subscription OnUpdateTweet {
     onUpdateTweet {
       id
-      user_id
       text
+      user_id
+      user {
+        id
+        name
+        cognito_id
+        confirmed
+        color
+        img_name
+        tweet {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -27,42 +53,22 @@ export const onDeleteTweet = /* GraphQL */ `
   subscription OnDeleteTweet {
     onDeleteTweet {
       id
-      user_id
       text
+      user_id
+      user {
+        id
+        name
+        cognito_id
+        confirmed
+        color
+        img_name
+        tweet {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateItem = /* GraphQL */ `
-  subscription OnCreateItem {
-    onCreateItem {
-      orderId
-      status
-      createdAt
-      name
-      updatedAt
-    }
-  }
-`;
-export const onUpdateItem = /* GraphQL */ `
-  subscription OnUpdateItem {
-    onUpdateItem {
-      orderId
-      status
-      createdAt
-      name
-      updatedAt
-    }
-  }
-`;
-export const onDeleteItem = /* GraphQL */ `
-  subscription OnDeleteItem {
-    onDeleteItem {
-      orderId
-      status
-      createdAt
-      name
       updatedAt
     }
   }
@@ -74,8 +80,18 @@ export const onCreateUser = /* GraphQL */ `
       name
       cognito_id
       confirmed
-      img_pass
       color
+      img_name
+      tweet {
+        items {
+          id
+          text
+          user_id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -88,8 +104,18 @@ export const onUpdateUser = /* GraphQL */ `
       name
       cognito_id
       confirmed
-      img_pass
       color
+      img_name
+      tweet {
+        items {
+          id
+          text
+          user_id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -102,8 +128,18 @@ export const onDeleteUser = /* GraphQL */ `
       name
       cognito_id
       confirmed
-      img_pass
       color
+      img_name
+      tweet {
+        items {
+          id
+          text
+          user_id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }

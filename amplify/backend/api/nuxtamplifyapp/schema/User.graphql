@@ -9,6 +9,7 @@ type User
   name: String!
   cognito_id: String!
   confirmed: Boolean!
-  img_pass: String
   color: String
+  img_name: String
+  tweet: [Tweet] @connection(fields: ["id"])
 }

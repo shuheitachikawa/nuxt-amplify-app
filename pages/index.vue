@@ -134,7 +134,7 @@ export default {
   data: () => ({
     email: 'shuhei.tusx@gmail.com',
     password: 'tachikawa',
-    userName: 'bubbubu',
+    userName: '無名さん',
     code: '',
     cognitoId: '',
     showPassword: false,

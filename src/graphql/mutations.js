@@ -8,8 +8,21 @@ export const createTweet = /* GraphQL */ `
   ) {
     createTweet(input: $input, condition: $condition) {
       id
-      user_id
       text
+      user_id
+      user {
+        id
+        name
+        cognito_id
+        confirmed
+        color
+        img_name
+        tweet {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -22,8 +35,21 @@ export const updateTweet = /* GraphQL */ `
   ) {
     updateTweet(input: $input, condition: $condition) {
       id
-      user_id
       text
+      user_id
+      user {
+        id
+        name
+        cognito_id
+        confirmed
+        color
+        img_name
+        tweet {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }
@@ -36,51 +62,22 @@ export const deleteTweet = /* GraphQL */ `
   ) {
     deleteTweet(input: $input, condition: $condition) {
       id
-      user_id
       text
+      user_id
+      user {
+        id
+        name
+        cognito_id
+        confirmed
+        color
+        img_name
+        tweet {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
-      updatedAt
-    }
-  }
-`;
-export const createItem = /* GraphQL */ `
-  mutation CreateItem(
-    $input: CreateItemInput!
-    $condition: ModelItemConditionInput
-  ) {
-    createItem(input: $input, condition: $condition) {
-      orderId
-      status
-      createdAt
-      name
-      updatedAt
-    }
-  }
-`;
-export const updateItem = /* GraphQL */ `
-  mutation UpdateItem(
-    $input: UpdateItemInput!
-    $condition: ModelItemConditionInput
-  ) {
-    updateItem(input: $input, condition: $condition) {
-      orderId
-      status
-      createdAt
-      name
-      updatedAt
-    }
-  }
-`;
-export const deleteItem = /* GraphQL */ `
-  mutation DeleteItem(
-    $input: DeleteItemInput!
-    $condition: ModelItemConditionInput
-  ) {
-    deleteItem(input: $input, condition: $condition) {
-      orderId
-      status
-      createdAt
-      name
       updatedAt
     }
   }
@@ -95,8 +92,18 @@ export const createUser = /* GraphQL */ `
       name
       cognito_id
       confirmed
-      img_pass
       color
+      img_name
+      tweet {
+        items {
+          id
+          text
+          user_id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -112,8 +119,18 @@ export const updateUser = /* GraphQL */ `
       name
       cognito_id
       confirmed
-      img_pass
       color
+      img_name
+      tweet {
+        items {
+          id
+          text
+          user_id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -129,8 +146,18 @@ export const deleteUser = /* GraphQL */ `
       name
       cognito_id
       confirmed
-      img_pass
       color
+      img_name
+      tweet {
+        items {
+          id
+          text
+          user_id
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }

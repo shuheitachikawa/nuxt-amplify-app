@@ -10,7 +10,7 @@
         v-for="post in posts"
         :key="post.id"
         class="mx-auto my-5"
-        color="#26c6da"
+        :color="post.user.color"
         dark
         width="90%"
       >
@@ -24,11 +24,11 @@
               <v-img
                 class="elevation-6"
                 alt=""
-                src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+                :src="post.user.img_pass"
               ></v-img>
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title>{{ post.user_id }}</v-list-item-title>
+              <v-list-item-title>{{ post.user.name }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-card-actions>
@@ -41,25 +41,36 @@
 import { API, graphqlOperation } from 'aws-amplify'
 import { createTweet } from '@/src/graphql/mutations'
 // import { listTweets } from '@/src/graphql/queries'
-import { tweetsByUserId } from '@/src/graphql/queries'
+import { listTweets } from '@/src/graphql/queries'
 import { onCreateTweet } from '@/src/graphql/subscriptions'
 export default {
   data() {
     return {
       text: '',
       posts: [],
+      loginUser: '',
     }
   },
   created() {
+    this.getUser()
     this.getPosts()
     this.subscribe()
   },
   methods: {
+    async getUser() {
+      if (!this.$store.getters.loginUser) {
+        const cognitoId = localStorage.getItem(
+          'CognitoIdentityServiceProvider.371nfhrqmkp9rq749d92gl6dbe.LastAuthUser'
+        )
+        await this.$store.dispatch('getUser', cognitoId)
+      }
+      this.loginUser = this.$store.getters.loginUser
+    },
     async post() {
       if (!this.text) return
       const payload = {
-        user_id: 'GUEST',
         text: this.text,
+        user_id: this.loginUser.id,
       }
       await API.graphql(graphqlOperation(createTweet, { input: payload }))
         .catch((e) => console.error(e))
@@ -67,13 +78,10 @@ export default {
     },
 
     async getPosts() {
-      const postId = 'bubekiti'
-      const { data } = await API.graphql(
-        graphqlOperation(tweetsByUserId, {
-          user_id: postId,
-        })
-      )
-      this.posts = data.tweetsByUserId.items
+      // const postId = 'bubekiti'
+      const { data } = await API.graphql(graphqlOperation(listTweets))
+      this.posts = data.listTweets.items
+      console.log(this.posts)
     },
 
     subscribe() {
